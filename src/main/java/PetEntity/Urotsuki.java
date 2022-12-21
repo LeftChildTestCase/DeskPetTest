@@ -37,10 +37,45 @@ public class Urotsuki {
     private void initial(){
         delta_move = 7;
         direction = Urotsuki_left;
-        State = Is_Walk;
+        if (Math.random() > 0.1){
+            State = Is_Walk;
+        }else {
+            State = Is_TwinTail;
+        }
+
         y = (int) (Math.random() * Screen_Height - 100) + 100;
         x = (int) (Math.random() * Screen_Width - 150) + 150;
-        RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+Is_Walk_String+"/left/left1.png",x,y);
+
+        int random = (int) (Math.floor(Math.random() * 4) + 1);
+        String dir = null;
+        switch (random){
+            case 1:{
+                dir = Urotsuki_front_S;
+                break;
+            }
+            case 2:{
+                dir = Urotsuki_back_S;
+                break;
+            }
+            case 3:{
+                dir = Urotsuki_left_S;
+                break;
+            }
+            case 4:{
+                dir = Urotsuki_right_S;
+                break;
+            }
+        }
+        switch (State){
+            case Is_Walk:{
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+Is_Walk_String+ dir + "1.png",x,y);
+                break;
+            }
+            case Is_TwinTail:{
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+Is_TwinTail_String+ dir +"1.png",x,y);
+                break;
+            }
+        }
     }
 
     public void setStateSit() {
@@ -49,12 +84,21 @@ public class Urotsuki {
     }
     public void setStateWalk() {
         changeEffect = true;
-        State = Is_Walk;
+        if (Math.random() > 0.1){
+            State = Is_Walk;
+        }else {
+            State = Is_TwinTail;
+        }
         IsSit = false;
     }
     public void setStateMotor() {
         changeEffect = true;
         State = Is_Motor;
+        IsSit = false;
+    }
+    public void setStateBat(){
+        changeEffect = true;
+        State = Is_Bat;
         IsSit = false;
     }
 
@@ -80,6 +124,21 @@ public class Urotsuki {
                 }
                 case Is_Sit:{
                     SitCheck();
+                    changeEffect = false;
+                    break;
+                }
+                case Is_Bat:{
+                    DirectionCheck(Walk,Is_Bat_String);
+                    changeEffect = false;
+                    break;
+                }
+                case Is_BatFly:{
+                    DirectionCheck(Walk,Is_BatFly_String);
+                    changeEffect = false;
+                    break;
+                }
+                case Is_TwinTail:{
+                    DirectionCheck(Walk,Is_TwinTail_String);
                     changeEffect = false;
                     break;
                 }
@@ -120,6 +179,7 @@ public class Urotsuki {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                        RandomAnimationSwitchEffect();
                     }else {
                         ChangeDirection();
                         break;
@@ -159,6 +219,7 @@ public class Urotsuki {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                        RandomAnimationSwitchEffect();
                     }else {
                         ChangeDirection();
                         break;
@@ -198,6 +259,7 @@ public class Urotsuki {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                        RandomAnimationSwitchEffect();
                     }else {
                         ChangeDirection();
                         break;
@@ -237,6 +299,7 @@ public class Urotsuki {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                        RandomAnimationSwitchEffect();
                     }else {
                         ChangeDirection();
                         break;
@@ -249,26 +312,384 @@ public class Urotsuki {
     }
 
     private void SitCheck(){
-        if (!IsSit){
-            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + "/sit0.png",x,y);
-            try {
-                Thread.sleep(400);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        switch (direction){
+            case Urotsuki_left:{
+                if (!IsSit){
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_left_S + "0.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_left_S + "1.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_left_S + "2.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    IsSit = !IsSit;
+                }
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_left_S + "3.png",x,y);
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             }
-            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + "/sit1.png",x,y);
-            try {
-                Thread.sleep(400);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            case Urotsuki_back:{
+                if (!IsSit){
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_back_S + "0.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_back_S + "1.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_back_S + "2.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    IsSit = !IsSit;
+                }
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_back_S + "3.png",x,y);
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             }
-            IsSit = !IsSit;
+            case Urotsuki_front:{
+                if (!IsSit){
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_front_S+ "0.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_front_S + "1.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_front_S + "2.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    IsSit = !IsSit;
+                }
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_front_S + "3.png",x,y);
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+            case Urotsuki_right:{
+                if (!IsSit){
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_right_S + "0.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_right_S + "1.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_right_S + "2.png",x,y);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    IsSit = !IsSit;
+                }
+                RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + Urotsuki_right_S + "3.png",x,y);
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
         }
-        RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/"+ Is_Sit_String + "/sit2.png",x,y);
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    }
+
+    private void RandomAnimationSwitchEffect(){
+        switch (State){
+            case Is_Bat:{
+                if (Math.random() < 0.05){
+                    changeEffect = true;
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/0.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/1.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/2.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/3.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    State = Is_BatFly;
+                    IsSit = false;
+                }
+                break;
+            }
+            case Is_BatFly:{
+                if (Math.random() < 0.05){
+                    changeEffect = true;
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/3.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/2.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/1.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/BatToFly/0.png",x,y);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    State = Is_Bat;
+                    IsSit = false;
+                }
+                break;
+            }
+            case Is_TwinTail:{
+                if (Math.random() < 0.01){
+                    changeEffect = true;
+                    switch (direction){
+                        case Urotsuki_left:{
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"3.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_left_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
+                        case Urotsuki_back:{
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"3.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_back_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
+                        case Urotsuki_right:{
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"3.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_right_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
+                        case Urotsuki_front:{
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"3.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"2.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"1.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            RePaint.ImageRepaint(jFrame,jPanel, "/img/Urotsuki/Animation/TwinTailKick/"+Urotsuki_front_S+"0.png",x,y);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
         }
     }
 

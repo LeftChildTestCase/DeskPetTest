@@ -14,28 +14,29 @@ public class PopMenu {
 
             PopupMenu popMenu = new PopupMenu();
 
-            MenuItem itemOpen = new MenuItem("Show");
-            itemOpen.addActionListener(e -> jFrame.setVisible(true));
-            popMenu.add(itemOpen);
+            MenuItem itemShow = new MenuItem("Show");
+            itemShow.addActionListener(e ->  jFrame.setVisible(true));
+            popMenu.add(itemShow);
 
             MenuItem itemHide = new MenuItem("Hide");
-            itemHide.addActionListener(e -> jFrame.setVisible(false));
+            itemHide.addActionListener(e ->  jFrame.setVisible(false));
             popMenu.add(itemHide);
 
             MenuItem Sit = new MenuItem("Sit");
-            Sit.setShortcut(new MenuShortcut(1,false));
             Sit.addActionListener(e -> this.urotsuki.setStateSit());
             popMenu.add(Sit);
 
             MenuItem Walk = new MenuItem("Walk");
-            Walk.setShortcut(new MenuShortcut(2,false));
             Walk.addActionListener(e ->  this.urotsuki.setStateWalk());
             popMenu.add(Walk);
 
             MenuItem Motor = new MenuItem("Motor");
-            Motor.setShortcut(new MenuShortcut(3,false));
             Motor.addActionListener(e ->  this.urotsuki.setStateMotor());
             popMenu.add(Motor);
+
+            MenuItem Bat = new MenuItem("Bat");
+            Bat.addActionListener(e ->  this.urotsuki.setStateBat());
+            popMenu.add(Bat);
 
 
             MenuItem itemExit = new MenuItem("exit");
