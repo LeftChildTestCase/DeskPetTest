@@ -6,21 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class ViewWindow extends JFrame {
+public class ViewWindow{
     PopMenu menu = new PopMenu();
     public static int Resolution_Width;
     public static int Resolution_Height;
-
-    private int random;
-
     private static void getResolution() {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle resolution= graphicsEnvironment.getMaximumWindowBounds();
         Resolution_Width = resolution.width;
         Resolution_Height = resolution.height;
     }
-
-
     public void Launch() {
         JFrame jFrame = new JFrame();
         JPanel jPanel = new JPanel();
@@ -36,6 +31,8 @@ public class ViewWindow extends JFrame {
         jFrame.setAlwaysOnTop(true);
         jFrame.setVisible(true);
         jFrame.add(jPanel);
+
+        jFrame.addKeyListener(menu);
 
         getResolution();
 

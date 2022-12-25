@@ -4,10 +4,13 @@ import PetEntity.Urotsuki;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
+import static PetEntity.State.Uro_Direction.*;
 
-public class PopMenu {
-    Urotsuki urotsuki = new Urotsuki();
+public class PopMenu extends KeyAdapter {
+   static Urotsuki urotsuki = new Urotsuki();
     public void setPopUpMenu(JFrame jFrame, String name) {
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
@@ -38,8 +41,12 @@ public class PopMenu {
             Bat.addActionListener(e ->  this.urotsuki.setStateBat());
             popMenu.add(Bat);
 
+            MenuItem Keyboard = new MenuItem("Keyboard");
+            Keyboard.addActionListener(e ->  this.urotsuki.setControlled());
+            popMenu.add(Keyboard);
 
-            MenuItem itemExit = new MenuItem("exit");
+
+            MenuItem itemExit = new MenuItem("Exit");
             itemExit.addActionListener(e -> System.exit(0));
             popMenu.add(itemExit);
 
@@ -57,5 +64,16 @@ public class PopMenu {
             }
         }
     }
-
+    public void keyPressed(KeyEvent e) {
+        urotsuki.setIsinControl(true);
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            urotsuki.setDirection(Urotsuki_back);
+        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+            urotsuki.setDirection(Urotsuki_front);
+        } else if (e.getKeyCode() == KeyEvent.VK_D) {
+            urotsuki.setDirection(Urotsuki_right);
+        } else if (e.getKeyCode() == KeyEvent.VK_A) {
+            urotsuki.setDirection(Urotsuki_left);
+        }
+    }
 }
